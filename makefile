@@ -26,6 +26,19 @@ endif
 CLEAN=rm -f $(EXE) *.o *.a
 endif
 
+# Dependencies
+hw5.o: hw5.c CSCIx229.h
+fatal.o: fatal.c CSCIx229.h
+loadtexbmp.o: loadtexbmp.c CSCIx229.h
+print.o: print.c CSCIx229.h
+project.o: project.c CSCIx229.h
+errcheck.o: errcheck.c CSCIx229.h
+object.o: object.c CSCIx229.h
+
+#  Create archive
+CSCIx229.a:fatal.o loadtexbmp.o print.o project.o errcheck.o object.o
+	ar -rcs $@ $^
+
 # Compile rules
 .c.o:
 	gcc -c $(CFLG) $<
@@ -33,7 +46,7 @@ endif
 	g++ -c $(CFLG) $<
 
 #  Link
-hw5:hw5.o
+hw5:hw5.o CSCIx229.a
 	gcc -O3 -o $@ $^   $(LIBS)
 
 #  Clean
