@@ -87,6 +87,38 @@ int yOrigin = -1;
 int m_button = 0;
 
 /*
+ *  Determine normal for triangle using the first point as
+ *  an origin for the vectors that go to points 2 and 3
+ *     
+ */
+ static void triangle(double x1, double y1, double z1,
+                  double x2, double y2, double z2,
+                  double x3, double y3, double z3){
+   // Build first vector
+   double v1x = x2 - x1;
+   double v1y = y2 - y1;
+   double v1z = z2 - z1;
+
+   // Build second vector
+   double v2x = x3 - x1;
+   double v2y = y3 - y1;
+   double v2z = z3 - z1;
+
+   // Get Cross Product
+   double nx = (v1y*v2z) - (v1z*v2y);
+   double ny = (v1z*v2x) - (v1x*v2z);
+   double nz = (v1x*v2y) - (v1y*v2x);
+
+   // Set normal for trianlge plane
+   glNormal3f(nx,ny,nz);
+
+   // Set points for triangle plan
+   glVertex3f(x1,y1,z1);
+   glVertex3f(x2,y2,z2);
+   glVertex3f(x3,y3,z3);
+ }
+
+/*
  *  Draw an ice crystal 
  *     
  */
@@ -100,60 +132,39 @@ static void ice_crystal(double x,double y,double z,
    
    //  Offset
    glTranslated(x,y,z);
-   glRotated(th,rx,ry,rz);
    glScaled(dx,dy,dz);
+   glRotated(th,rx,ry,rz);
+
    
-   //  Crystal
+   //  Snow Crystal
    glBegin(GL_TRIANGLES);
 
-   //  Front Top
+   // Set Snow Crystal Color
    glColor3f(0.0,0.0,1.0);
-   glNormal3f(+0,+2,+10);
-   glVertex3f(+0,+5,+0);
-   glVertex3f(-1,+0,+1);
-   glVertex3f(+1,+0,+1);
+
+   //  Front Top
+   triangle(+0,+5,+0, -1,+0,+1, +1,+0,+1);
 
    //  Right Top
-   glNormal3f(+10,+2,+0);
-   glVertex3f(+0,+5,+0);
-   glVertex3f(+1,+0,+1);
-   glVertex3f(+1,+0,-1);
+   triangle(+0,+5,+0, +1,+0,+1, +1,+0,-1);
 
    //  Back Top
-   glNormal3f(+0,+2,-10);
-   glVertex3f(+0,+5,+0);
-   glVertex3f(+1,+0,-1);
-   glVertex3f(-1,+0,-1);
+   triangle(+0,+5,+0, +1,+0,-1, -1,+0,-1);
 
    //  Left Top
-   glNormal3f(-10,+2,+0);
-   glVertex3f(+0,+5,+0);
-   glVertex3f(-1,+0,-1);
-   glVertex3f(-1,+0,+1);
+   triangle(+0,+5,+0, -1,+0,-1, -1,+0,+1);
 
    //  Front Bottom
-   glNormal3f(+0,-2,-10);
-   glVertex3f(+0,-5,+0);
-   glVertex3f(-1,+0,+1);
-   glVertex3f(+1,+0,+1);
+   triangle(+0,-5,+0, -1,+0,+1, +1,+0,+1);
 
    //  Right Bottom
-   glNormal3f(+10,-2,+0);
-   glVertex3f(+0,-5,+0);
-   glVertex3f(+1,+0,+1);
-   glVertex3f(+1,+0,-1);
+   triangle(+0,-5,+0, +1,+0,+1, +1,+0,-1);
 
    //  Back Bottom
-   glNormal3f(+0,-2,-10);
-   glVertex3f(+0,-5,+0);
-   glVertex3f(+1,+0,-1);
-   glVertex3f(-1,+0,-1);
+   triangle(+0,-5,+0, +1,+0,-1, -1,+0,-1);
 
    //  Left Bottom
-   glNormal3f(-10,-2,+0);
-   glVertex3f(+0,-5,+0);
-   glVertex3f(-1,+0,-1);
-   glVertex3f(-1,+0,+1);
+   triangle(+0,-5,+0, -1,+0,-1, -1,+0,+1);
 
    //  End
    glEnd();
