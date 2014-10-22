@@ -155,16 +155,16 @@ static void ice_crystal(double x,double y,double z,
    triangle(+0,+5,+0, -1,+0,-1, -1,+0,+1);
 
    //  Front Bottom
-   triangle(+0,-5,+0, -1,+0,+1, +1,+0,+1);
+   triangle(+0,-5,+0, +1,+0,+1, -1,+0,+1);
 
    //  Right Bottom
-   triangle(+0,-5,+0, +1,+0,+1, +1,+0,-1);
+   triangle(+0,-5,+0, +1,+0,-1, +1,+0,+1);
 
    //  Back Bottom
-   triangle(+0,-5,+0, +1,+0,-1, -1,+0,-1);
+   triangle(+0,-5,+0, -1,+0,-1, +1,+0,-1);
 
    //  Left Bottom
-   triangle(+0,-5,+0, -1,+0,-1, -1,+0,+1);
+   triangle(+0,-5,+0, -1,+0,+1, -1,+0,-1);
 
    //  End
    glEnd();
